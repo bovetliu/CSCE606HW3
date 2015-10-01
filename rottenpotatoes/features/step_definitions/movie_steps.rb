@@ -17,7 +17,13 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  fail "Unimplemented"
+  if page.respond_to? :should
+    #debugger
+    expect(page.body =~/#{e1}.*#{e2}/m).to be >= 0
+  else
+    # I can find one piece of text matchingh following pattern with characteristrcs that e1 is before e2
+    assert page.body =~ /#{e1}.*#{e2}/m
+  end
 end
 
 Then /I should (not )?see movies with titles: (.*)/ do |not_see, titles|
